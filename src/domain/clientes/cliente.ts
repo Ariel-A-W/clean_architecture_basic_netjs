@@ -1,7 +1,7 @@
 
 export class Cliente {
     constructor(
-        public cliente_id: BigInt,
+        public cliente_id: Number,
         public cliente: String,
         public direccion: String, 
         public ciudad: String,

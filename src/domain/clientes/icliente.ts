@@ -1,13 +1,13 @@
 import { Cliente } from './cliente';
 
 export interface ICliente {
-    getList(): Array<Cliente>;
+    getList(): Promise<Array<Cliente>>;
 
-    getById(id: BigInt): Cliente;
+    getById(id: number): Cliente;
 
     add(entity: Cliente): number;
 
-    delete(id: BigInt): number;
+    delete(id: number): number;
     
-    update(id: BigInt, entity: Cliente);
+    update(id: number, entity: Cliente);
 }
