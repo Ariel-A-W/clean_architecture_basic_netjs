@@ -1,3 +1,4 @@
+import { UUID } from 'crypto';
 import { Column, Model, Table, CreatedAt, UpdatedAt, DataType, Sequelize } from 'sequelize-typescript'; 
 
 @Table({
@@ -8,6 +9,9 @@ import { Column, Model, Table, CreatedAt, UpdatedAt, DataType, Sequelize } from 
 export class ClientesModel extends Model {
     @Column({primaryKey: true})
     cliente_id: number; 
+
+    @Column({type: DataType.UUID})
+    cliente_uuid: UUID;
 
     @Column({type: DataType.STRING(150)})
     @Column 

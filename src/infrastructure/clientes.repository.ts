@@ -16,14 +16,15 @@ export class ClientesRepository implements ICliente {
         try {
             const data = await this.cliente.findAll({
                 attributes: [
-                    'cliente_id', 'cliente', 'direccion', 'ciudad',
+                    'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
                     'movil', 'email', 'atcreated', 'atupdated'
                 ]
             });    
-            data.forEach((element: any) => {
+            data.forEach((element) => {
                 lstclientes.push(
                     new Cliente(
                         element.cliente_id,
+                        element.cliente_uuid,
                         element.cliente,
                         element.direccion,
                         element.ciudad,
