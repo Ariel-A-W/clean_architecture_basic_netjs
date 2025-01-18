@@ -1,11 +1,15 @@
 import { Controller, Get } from "@nestjs/common";
+import { ClientesUsesCases } from "./clientes.usescases";
+import { Cliente } from "src/domain/clientes/cliente";
 
 @Controller("api/clientes")
 export class ClientesController {
-    constructor() {}
+    constructor(
+        private readonly cliente: ClientesUsesCases
+    ) {}
 
     @Get()
-    public getList(): string {
-        return 'Hola mundo';
+    public async getList() {
+        return await this.cliente.getList();
     }
 }

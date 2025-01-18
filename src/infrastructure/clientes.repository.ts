@@ -5,45 +5,42 @@ import { ClientesModel } from '../domain/clientes/clientes.model';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
-export class ClienteRepository implements ICliente {  
+export class ClientesRepository implements ICliente {  
     constructor(
         @InjectModel(ClientesModel) 
         private cliente: typeof ClientesModel
     ) {}
 
-    getList(): Array<Cliente> {
-        var lstclientes = new Array<Cliente>;
-        var fndLst = this.cliente.findAll(
-            {
+    async getList(): Promise<Array<Cliente>> {
+        const lstclientes: Array<Cliente> = [];
+        try {
+            const data = await this.cliente.findAll({
                 attributes: [
-                    'cliente_id', 'cliente', 'direccion', 'ciudad', 
+                    'cliente_id', 'cliente', 'direccion', 'ciudad',
                     'movil', 'email', 'atcreated', 'atupdated'
                 ]
-            }
-        );
-        fndLst.then((data) => {
-            lstclientes.length = 0;
-            data.forEach(element => {
+            });    
+            data.forEach((element: any) => {
                 lstclientes.push(
                     new Cliente(
-                        BigInt(element.cliente_id), 
-                        element.cliente, 
-                        element.direccion, 
-                        element.ciudad, 
-                        element.movil, 
-                        element.email, 
-                        new Date(), 
-                        new Date()
+                        element.cliente_id,
+                        element.cliente,
+                        element.direccion,
+                        element.ciudad,
+                        element.movil,
+                        element.email,
+                        new Date(element.atcreated), // Ajustar según formato real
+                        new Date(element.atupdated)  // Ajustar según formato real
                     )
                 );
             });
-        }).catch(() => {
-            lstclientes.length = 0;
-        });
+        } catch (error) {
+            console.error('Error de datos:', error);
+        }
         return lstclientes;
     }
-
-    getById(id: BigInt): Cliente {
+   
+    getById(id: number): Cliente {
         throw new Error('Method not implemented.');
     }
 
@@ -51,11 +48,11 @@ export class ClienteRepository implements ICliente {
         throw new Error('Method not implemented.');
     }
 
-    delete(id: BigInt): number {
+    delete(id: number): number {
         throw new Error('Method not implemented.');
     }
 
-    update(id: BigInt, entity: Cliente) {
+    update(id: number, entity: Cliente) {
         throw new Error('Method not implemented.');
     }
 }

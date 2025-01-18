@@ -6,7 +6,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 
 import { ClientesModel } from './domain/clientes/clientes.model';
 
-import { ClienteRepository } from './infrastructure/clientes.repository';
+import { ClientesRepository } from './infrastructure/clientes.repository';
+import { ClientesUsesCases } from './application/clientes/clientes.usescases';
 
 import { ClientesController } from './application/clientes/clientes.controller';
 
@@ -41,7 +42,8 @@ import { ClientesController } from './application/clientes/clientes.controller';
   // Inyección de Dependencias
   providers: [
     AppService, 
-    ClienteRepository
+    ClientesRepository, 
+    ClientesUsesCases
   ],
 })
 export class AppModule {}
