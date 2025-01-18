@@ -24,10 +24,3 @@ import { SequelizeModule } from '@nestjs/sequelize';
   providers: [AppService],
 })
 export class AppModule {}
-
-console.log(
-  process.env.HOST_SERVER + " " +
-  process.env.DATABASENAME + " " +
-  process.env.USERNAME + " " + 
-  process.env.PASSWORD
-);
