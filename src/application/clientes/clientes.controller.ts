@@ -1,6 +1,6 @@
 import { Controller, Get } from "@nestjs/common";
 import { ClientesUsesCases } from "./clientes.usescases";
-import { Cliente } from "src/domain/clientes/cliente";
+import { ClientesResponseDTO } from "./clientes.response.dto";
 
 @Controller("api/clientes")
 export class ClientesController {
@@ -10,6 +10,29 @@ export class ClientesController {
 
     @Get()
     public async getList() {
-        return await this.cliente.getList();
+        const data = await this.cliente.getList();
+        try 
+        {
+            var lstclientes = new Array<ClientesResponseDTO>();
+            data.forEach((element) =>{
+                lstclientes.push(
+                    new ClientesResponseDTO(
+                        element.cliente_uuid,
+                        element.cliente,
+                        element.direccion,
+                        element.ciudad,
+                        element.movil,
+                        element.email,
+                        element.atcreated, 
+                        element.atmodified  
+                    )
+                );
+            });
+        }
+        catch(error)
+        {
+            console.error('Error de datos:', error);
+        }
+        return await lstclientes;
     }
 }
