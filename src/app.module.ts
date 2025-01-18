@@ -3,12 +3,21 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+
+import { ClientesModel } from './domain/clientes/clientes.model';
+
+import { ClienteRepository } from './infrastructure/clientes.repository';
+
+import { ClientesController } from './application/clientes/clientes.controller';
+
 @Module({
   imports: [
+    // Archivo de configuraciones generales.
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
+    // Conexión hacia la base de datos.
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.HOST_SERVER || 'localhost',
@@ -18,9 +27,21 @@ import { SequelizeModule } from '@nestjs/sequelize';
       database: process.env.DATABASE_NAME || 'enterprise',
       autoLoadModels: true,
       synchronize: false, // No recomendado en producción (colocar false).
-    }),    
+    }), 
+    // Añadir los modelos (dominio)
+    SequelizeModule.forFeature([
+      ClientesModel
+    ]), 
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // Insertar Controladores
+  controllers: [
+    AppController, 
+    ClientesController
+  ],
+  // Inyección de Dependencias
+  providers: [
+    AppService, 
+    ClienteRepository
+  ],
 })
 export class AppModule {}
