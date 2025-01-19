@@ -3,6 +3,7 @@ import { ICliente } from '../domain/clientes/icliente';
 import { Injectable } from '@nestjs/common';
 import { ClientesModel } from '../domain/clientes/clientes.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class ClientesRepository implements ICliente {  
@@ -41,8 +42,64 @@ export class ClientesRepository implements ICliente {
         return lstclientes;
     }
    
-    getById(id: number): Cliente {
-        throw new Error('Method not implemented.');
+    async getById(id: number): Promise<Cliente> {
+        const clie = await this.cliente.findOne({
+            where: {
+                cliente_id: id
+            }, 
+            attributes: [
+                'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
+                'movil', 'email', 'atcreated', 'atupdated'                
+            ]
+        });
+
+        if (!clie) {
+          return null;
+        }        
+
+        var oneCliente = new Cliente(
+            clie.cliente_id, 
+            clie.cliente_uuid, 
+            clie.cliente, 
+            clie.direccion, 
+            clie.ciudad, 
+            clie.movil, 
+            clie.email, 
+            clie.atcreated, 
+            clie.atupdated
+        );
+        
+        return oneCliente;              
+    }
+
+    async getByUUID(uuid: UUID): Promise<Cliente> { 
+        const clie = await this.cliente.findOne({
+            where: {
+                cliente_uuid: uuid
+            }, 
+            attributes: [
+                'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
+                'movil', 'email', 'atcreated', 'atupdated'                
+            ]
+        });
+
+        if (!clie) {
+          return null;
+        }        
+
+        var oneCliente = new Cliente(
+            clie.cliente_id, 
+            clie.cliente_uuid, 
+            clie.cliente, 
+            clie.direccion, 
+            clie.ciudad, 
+            clie.movil, 
+            clie.email, 
+            clie.atcreated, 
+            clie.atupdated
+        );
+        
+        return oneCliente;                       
     }
 
     add(entity: Cliente): number {
