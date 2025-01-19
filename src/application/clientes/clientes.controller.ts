@@ -1,7 +1,7 @@
-import { Controller, Get, NotFoundException, Param } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, NotFoundException, Param, Body } from "@nestjs/common";
 import { ClientesUsesCases } from "./clientes.usescases";
-import { ClientesResponseDTO } from "./clientes.response.dto";
 import { UUID } from "crypto";
+import { ClientesAddRequestDTO } from "./clientes.add.request.dto";
 
 @Controller("api/clientes")
 export class ClientesController {
@@ -10,31 +10,15 @@ export class ClientesController {
     ) {}
 
     @Get()
-    public async getList() {
+    public async getList() {        
         const data = await this.cliente.getList();
-        try 
+
+        if (data == null || data.length == 0) 
         {
-            var lstclientes = new Array<ClientesResponseDTO>();
-            data.forEach((element) =>{
-                lstclientes.push(
-                    new ClientesResponseDTO(
-                        element.cliente_uuid,
-                        element.cliente,
-                        element.direccion,
-                        element.ciudad,
-                        element.movil,
-                        element.email,
-                        element.atcreated, 
-                        element.atmodified  
-                    )
-                );
-            });
+            return new NotFoundException("No existen registros.");
         }
-        catch(error)
-        {
-            console.error('Error de datos:', error);
-        }
-        return await lstclientes;
+
+        return await data;
     }
 
     @Get('getcliente/:uuid')
@@ -47,17 +31,12 @@ export class ClientesController {
             return new NotFoundException("El cliente no existe.");
         }
 
-        var oneCliente = new ClientesResponseDTO(
-            data.cliente_uuid,
-            data.cliente,
-            data.direccion,
-            data.ciudad,
-            data.movil,
-            data.email,
-            data.atcreated, 
-            data.atmodified 
-        );
-
-        return oneCliente;
+        return data;
     }
+
+    // @Post('add')
+    // public async add(@Body() entity: ClientesAddRequestDTO)
+    // {
+
+    // }
 }

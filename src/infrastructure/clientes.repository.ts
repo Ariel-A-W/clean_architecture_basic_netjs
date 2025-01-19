@@ -102,15 +102,58 @@ export class ClientesRepository implements ICliente {
         return oneCliente;                       
     }
 
-    add(entity: Cliente): number {
-        throw new Error('Method not implemented.');
+    async add(entity: Cliente): Promise<number> {       
+        try 
+        {
+            var result = await this.cliente.create({entity})
+            await result.save();
+            return 1;
+        }
+        catch 
+        {
+            return 0;
+        } 
     }
 
-    delete(id: number): number {
-        throw new Error('Method not implemented.');
+    async delete(id: number): Promise<number> {        
+        try 
+        {
+            const clie = await this.cliente.findOne({
+                where: {
+                    cliente_id: id
+                }, 
+                attributes: [
+                    'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
+                    'movil', 'email', 'atcreated', 'atupdated'                
+                ]
+            });
+            clie.destroy();
+            return 1;
+        }
+        catch 
+        {
+            return 0;
+        }
     }
 
-    update(id: number, entity: Cliente) {
-        throw new Error('Method not implemented.');
+    async update(id: number, entity: Cliente): Promise<number> {
+        try 
+        {
+            // const clie = await this.cliente.findOne({
+            //     where: {
+            //         cliente_id: id
+            //     }, 
+            //     attributes: [
+            //         'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
+            //         'movil', 'email', 'atcreated', 'atupdated'                
+            //     ]
+            // });
+            await this.cliente.update({entity}, { where: { cliente_id: id}});
+            return 1;
+        }
+        catch 
+        {
+            return 0;
+        }
     }
 }
