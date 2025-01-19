@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { UUID } from "crypto";
 import { Cliente } from "src/domain/clientes/cliente";
 import { ICliente } from "src/domain/clientes/icliente";
 import { ClientesRepository } from "src/infrastructure/clientes.repository";
@@ -20,8 +21,19 @@ export class ClientesUsesCases implements ICliente {
         }       
     }
 
-    getById(id: number): Cliente {
+    getById(id: number): Promise<Cliente> {
         throw new Error("Method not implemented.");
+    }
+
+    getByUUID(uuid: UUID): Promise<Cliente> {
+        try 
+        {
+            return this.cliente.getByUUID(uuid);
+        }
+        catch 
+        {
+            return null;
+        }
     }
 
     add(entity: Cliente): number {
