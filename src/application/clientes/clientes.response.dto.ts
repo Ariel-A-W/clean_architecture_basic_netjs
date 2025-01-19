@@ -2,7 +2,7 @@ import { UUID } from "crypto";
 
 export class ClientesResponseDTO {
     constructor(
-        public cliente_uui: UUID,
+        public cliente_uuid: UUID,
         public cliente: String,
         public direccion: String, 
         public ciudad: String,

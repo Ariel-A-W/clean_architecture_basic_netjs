@@ -8,9 +8,9 @@ export interface ICliente {
 
     getByUUID(uuid: UUID): Promise<Cliente>;
 
-    add(entity: Cliente): number;
+    add(entity: Cliente): Promise<number>;
 
-    delete(id: number): number;
+    delete(id: number): Promise<number>;
     
-    update(id: number, entity: Cliente);
+    update(id: number, entity: Cliente): Promise<number>;
 }
