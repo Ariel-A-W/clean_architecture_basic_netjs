@@ -4,5 +4,5 @@ import { UUID } from "crypto";
 export class ClientesDeleteRequestDTO 
 {
     @IsUUID()
-    cliente_uuid: UUID;
+    public cliente_uuid: UUID;
 }

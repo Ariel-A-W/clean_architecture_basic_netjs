@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Put, Delete, NotFoundException, Param, Body, BadRequestException } from "@nestjs/common";
 import { ClientesUsesCases } from "./clientes.usescases";
-import { UUID } from "crypto";
 import { ClientesAddRequestDTO } from "./clientes.add.request.dto";
 import { ClientesUpdateRequestDTO } from "./clientes.update.request.dto";
+import { ClientesDeleteRequestDTO } from "./clientes.delete.request.dto";
+import { ClientesGetByUUIDRequestDTO } from "./clientes.getbyuudi.request.dto";
 
 @Controller("api/clientes")
 export class ClientesController {
@@ -22,16 +23,16 @@ export class ClientesController {
         return await data;
     }
 
-    @Get('getcliente/:uuid')
-    public async getCliente(@Param('uuid') uuid: UUID)
+    @Get('getcliente/:cliente_uuid')
+    public async getCliente(@Param() entity: ClientesGetByUUIDRequestDTO)
     {
-        const data = await this.cliente.getByUUID(uuid);
+        const data = await this.cliente.getByUUID(entity.cliente_uuid);
 
         if(data == null || data.cliente_uuid == null) 
             return new NotFoundException("El cliente no existe.");
         
         return data;
-    }
+    }    
 
     @Post('add')
     public async add(@Body() entity: ClientesAddRequestDTO)
@@ -40,6 +41,17 @@ export class ClientesController {
 
         if(result == 0) 
             return new BadRequestException("El cliente no fue añadido.");
+
+        return result;
+    }
+
+    @Delete('delete')
+    public async delete(@Body() entity: ClientesDeleteRequestDTO)
+    {
+        const result = await this.cliente.delete(entity.cliente_uuid); 
+
+        if (result == 0) 
+            return new BadRequestException("El cliente no ha sido eliminado."); 
 
         return result;
     }
