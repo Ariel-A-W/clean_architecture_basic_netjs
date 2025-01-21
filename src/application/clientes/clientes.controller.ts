@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Put, Delete, NotFoundException, Param, Body } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, NotFoundException, Param, Body, BadRequestException } from "@nestjs/common";
 import { ClientesUsesCases } from "./clientes.usescases";
 import { UUID } from "crypto";
 import { ClientesAddRequestDTO } from "./clientes.add.request.dto";
+import { ClientesUpdateRequestDTO } from "./clientes.update.request.dto";
 
 @Controller("api/clientes")
 export class ClientesController {
@@ -38,8 +39,19 @@ export class ClientesController {
         const result = await this.cliente.add(entity);
 
         if(result == 0) 
-            return new NotFoundException("El cliente no fue añadido.");
+            return new BadRequestException("El cliente no fue añadido.");
 
+        return result;
+    }
+
+    @Put('update')
+    public async update(@Body() entity: ClientesUpdateRequestDTO)
+    {
+        const result = await this.cliente.update(entity);
+
+        if(result == 0) 
+            return new BadRequestException("El cliente no fue actualizado.");
+        
         return result;
     }
 }

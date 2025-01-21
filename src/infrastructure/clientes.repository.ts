@@ -149,7 +149,20 @@ export class ClientesRepository implements ICliente {
     async update(id: number, entity: Cliente): Promise<number> {
         try 
         {
-            await this.cliente.update({entity}, { where: { cliente_id: id}});
+            await this.cliente.update(
+                {
+                    'cliente': entity.cliente,
+                    'direccion': entity.direccion,
+                    'ciudad': entity.ciudad,
+                    'movil': entity.movil,
+                    'email': entity.email, 
+                    'atcreated': new Date(), 
+                    'atmodified': new Date()
+                }, 
+                { 
+                    where: { cliente_id: id}
+                }
+            );
             return 1;
         }
         catch 
