@@ -99,8 +99,15 @@ export class ClientesUsesCases implements IClienteDTO {
         return await this.cliente.add(cliente);
     }
     
-    async delete(uuid: UUID): Promise<number> {        
-        throw new Error("Method not implemented.");
+    async delete(uuid: UUID): Promise<number> {   
+        const data = await this.cliente.getByUUID(uuid);
+       
+        if(data == null || data.cliente_uuid == null) 
+        {
+            return null;
+        }        
+        
+        return await this.cliente.delete(Number(data.cliente_id));
     }
     
     async update(entity: ClientesUpdateRequestDTO): Promise<number> {

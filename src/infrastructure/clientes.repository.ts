@@ -125,17 +125,14 @@ export class ClientesRepository implements ICliente {
         } 
     }
 
-    async delete(id: number): Promise<number> {        
+    async delete(id: number): Promise<number> {     
         try 
         {
+        console.log("Repository: ", id);
             const clie = await this.cliente.findOne({
                 where: {
                     cliente_id: id
-                }, 
-                attributes: [
-                    'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
-                    'movil', 'email', 'atcreated', 'atupdated'                
-                ]
+                }
             });
             clie.destroy();
             return 1;
