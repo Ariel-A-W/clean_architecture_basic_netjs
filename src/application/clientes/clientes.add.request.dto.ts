@@ -17,4 +17,8 @@ export class ClientesAddRequestDTO
     @IsString() 
     @IsOptional()
     movil?: string;
+
+    @IsString() 
+    @IsOptional()
+    email?: string;    
 }

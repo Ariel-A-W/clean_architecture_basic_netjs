@@ -27,16 +27,19 @@ export class ClientesController {
         const data = await this.cliente.getByUUID(uuid);
 
         if(data == null || data.cliente_uuid == null) 
-        {
             return new NotFoundException("El cliente no existe.");
-        }
-
+        
         return data;
     }
 
-    // @Post('add')
-    // public async add(@Body() entity: ClientesAddRequestDTO)
-    // {
+    @Post('add')
+    public async add(@Body() entity: ClientesAddRequestDTO)
+    {
+        const result = await this.cliente.add(entity);
 
-    // }
+        if(result == 0) 
+            return new NotFoundException("El cliente no fue añadido.");
+
+        return result;
+    }
 }

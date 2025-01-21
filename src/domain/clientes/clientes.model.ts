@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { Column, Model, Table, CreatedAt, UpdatedAt, DataType, Sequelize } from 'sequelize-typescript'; 
+import { Column, Model, Table, CreatedAt, UpdatedAt, DataType, Sequelize, AutoIncrement } from 'sequelize-typescript'; 
 
 @Table({
     freezeTableName: true, 
@@ -7,7 +7,7 @@ import { Column, Model, Table, CreatedAt, UpdatedAt, DataType, Sequelize } from 
     tableName: 'clientes'
 }) 
 export class ClientesModel extends Model {
-    @Column({primaryKey: true})
+    @Column({type: DataType.INTEGER, primaryKey: true, autoIncrement: true})
     cliente_id: number; 
 
     @Column({type: DataType.UUID})
@@ -34,10 +34,10 @@ export class ClientesModel extends Model {
     email: string;
 
     @CreatedAt
-    @Column({type: 'TIMESTAMP', defaultValue: 'CURRENT_TIMESTAP'})
+    @Column({type: 'TIMESTAMP'})
     atcreated: Date;
 
     @UpdatedAt
-    @Column({type: 'TIMESTAMP', defaultValue: 'CURRENT_TIMESTAMP'})
+    @Column({type: 'TIMESTAMP'})
     atupdated: Date;
 }

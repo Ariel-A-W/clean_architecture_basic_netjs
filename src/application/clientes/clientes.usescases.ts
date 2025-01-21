@@ -5,6 +5,8 @@ import { IClienteDTO } from "./icliente.dto";
 import { ClientesAddRequestDTO } from "./clientes.add.request.dto";
 import { ClientesResponseDTO } from "./clientes.response.dto";
 import { ClientesUpdateRequestDTO } from "./clientes.update.request.dto";
+import { Cliente } from "src/domain/clientes/cliente";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ClientesUsesCases implements IClienteDTO {
@@ -73,54 +75,37 @@ export class ClientesUsesCases implements IClienteDTO {
         }        
     }
     
-    add(entity: ClientesAddRequestDTO): number {
+    // public cliente_id: Number,
+    // public cliente_uuid: UUID,
+    // public cliente: String,
+    // public direccion: String, 
+    // public ciudad: String,
+    // public movil: String, 
+    // public email: String,
+    // public atcreated: Date, 
+    // public atmodified: Date
+
+    async add(entity: ClientesAddRequestDTO): Promise<number> {
+        var cliente = new Cliente(
+            0,
+            uuidv4(),
+            entity.cliente,
+            entity.direccion,
+            entity.ciudad,
+            entity.movil,
+            entity.email, 
+            new Date(), 
+            new Date()
+        );
+        return await this.cliente.add(cliente);
+    }
+    
+    delete(uuid: UUID): Promise<number> {        
         throw new Error("Method not implemented.");
     }
     
-    delete(uuid: UUID): number {
+    update(uuid: UUID, entity: ClientesUpdateRequestDTO): Promise<number> {
+
         throw new Error("Method not implemented.");
     }
-    
-    update(id: number, entity: ClientesUpdateRequestDTO) {
-        throw new Error("Method not implemented.");
-    }
-    
-
-    // async getList(): Promise<Array<Cliente>> {
-    //     try 
-    //     {
-    //         return this.cliente.getList();
-    //     }
-    //     catch 
-    //     {
-    //         return new Array<Cliente>(); 
-    //     }       
-    // }
-
-    // getById(id: number): Promise<Cliente> {
-    //     throw new Error("Method not implemented.");
-    // }
-
-    // getByUUID(uuid: UUID): Promise<Cliente> {
-    //     try 
-    //     {
-    //         return this.cliente.getByUUID(uuid);
-    //     }
-    //     catch 
-    //     {
-    //         return null;
-    //     }
-    // }
-
-    // add(entity: Cliente): number {
-    //     throw new Error("Method not implemented.");
-    // }
-
-    // delete(id: number): number {
-    //     throw new Error("Method not implemented.");
-    // }
-
-    // update(id: number, entity: Cliente) {
-    //     throw new Error("Method not implemented.");
-    // }
 }
