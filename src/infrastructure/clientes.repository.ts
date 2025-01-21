@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ClientesModel } from '../domain/clientes/clientes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { UUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ClientesRepository implements ICliente {  
@@ -105,7 +106,16 @@ export class ClientesRepository implements ICliente {
     async add(entity: Cliente): Promise<number> {       
         try 
         {
-            var result = await this.cliente.create({entity})
+            var result = await this.cliente.create({
+                'cliente_uuid': entity.cliente_uuid,
+                'cliente': entity.cliente,
+                'direccion': entity.direccion,
+                'ciudad': entity.ciudad,
+                'movil': entity.movil,
+                'email': entity.email, 
+                'atcreated': new Date(), 
+                'atmodified': new Date()
+            });
             await result.save();
             return 1;
         }
@@ -139,15 +149,6 @@ export class ClientesRepository implements ICliente {
     async update(id: number, entity: Cliente): Promise<number> {
         try 
         {
-            // const clie = await this.cliente.findOne({
-            //     where: {
-            //         cliente_id: id
-            //     }, 
-            //     attributes: [
-            //         'cliente_id', 'cliente_uuid', 'cliente', 'direccion', 'ciudad',
-            //         'movil', 'email', 'atcreated', 'atupdated'                
-            //     ]
-            // });
             await this.cliente.update({entity}, { where: { cliente_id: id}});
             return 1;
         }

@@ -11,9 +11,9 @@ export interface IClienteDTO
 
     getByUUID(uuid: UUID): Promise<ClientesResponseDTO>;
 
-    add(entity: ClientesAddRequestDTO): number;
+    add(entity: ClientesAddRequestDTO): Promise<number>;
 
-    delete(uuid: UUID): number;
+    delete(uuid: UUID): Promise<number>;
     
-    update(id: number, entity: ClientesUpdateRequestDTO);
+    update(uuid: UUID, entity: ClientesUpdateRequestDTO): Promise<number>;
 }
