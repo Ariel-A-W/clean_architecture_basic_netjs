@@ -15,5 +15,5 @@ export interface IClienteDTO
 
     delete(uuid: UUID): Promise<number>;
     
-    update(uuid: UUID, entity: ClientesUpdateRequestDTO): Promise<number>;
+    update(entity: ClientesUpdateRequestDTO): Promise<number>;
 }

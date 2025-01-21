@@ -31,8 +31,7 @@ export class ClientesUsesCases implements IClienteDTO {
                         element.atcreated, 
                         element.atmodified  
                     )
-                );            
-
+                ); 
             });
             return lstclientes;
         }
@@ -100,12 +99,31 @@ export class ClientesUsesCases implements IClienteDTO {
         return await this.cliente.add(cliente);
     }
     
-    delete(uuid: UUID): Promise<number> {        
+    async delete(uuid: UUID): Promise<number> {        
         throw new Error("Method not implemented.");
     }
     
-    update(uuid: UUID, entity: ClientesUpdateRequestDTO): Promise<number> {
+    async update(entity: ClientesUpdateRequestDTO): Promise<number> {
 
-        throw new Error("Method not implemented.");
+        const data = await this.cliente.getByUUID(entity.cliente_uuid);
+
+        if(data == null || data.cliente_uuid == null) 
+        {
+            return null;
+        }
+
+        var cliente = new Cliente(
+            data.cliente_id,
+            data.cliente_uuid,
+            entity.cliente,
+            entity.direccion,
+            entity.ciudad,
+            entity.movil,
+            entity.email, 
+            new Date(), 
+            new Date()
+        );
+
+        return await this.cliente.update(Number(data.cliente_id), cliente);        
     }
 }
