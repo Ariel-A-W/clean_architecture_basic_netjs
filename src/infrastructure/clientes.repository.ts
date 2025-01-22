@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { ClientesModel } from '../domain/clientes/clientes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { UUID } from 'crypto';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ClientesRepository implements ICliente {  
@@ -128,7 +127,6 @@ export class ClientesRepository implements ICliente {
     async delete(id: number): Promise<number> {     
         try 
         {
-        console.log("Repository: ", id);
             const clie = await this.cliente.findOne({
                 where: {
                     cliente_id: id
