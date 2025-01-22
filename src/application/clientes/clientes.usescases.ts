@@ -74,16 +74,6 @@ export class ClientesUsesCases implements IClienteDTO {
         }        
     }
     
-    // public cliente_id: Number,
-    // public cliente_uuid: UUID,
-    // public cliente: String,
-    // public direccion: String, 
-    // public ciudad: String,
-    // public movil: String, 
-    // public email: String,
-    // public atcreated: Date, 
-    // public atmodified: Date
-
     async add(entity: ClientesAddRequestDTO): Promise<number> {
         var cliente = new Cliente(
             0,
